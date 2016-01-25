@@ -1,0 +1,138 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@color/white"
+    tools:context="com.example.dylicious.mydoctors.EditDoctor">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/doc_name"
+            android:paddingTop="5dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginTop="40dp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/edocname"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textStyle="italic"
+            android:hint="@string/doc_name_hint"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/doc_address"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/edocadd"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textStyle="italic"
+            android:hint="@string/doc_address_hint"
+            android:inputType="textMultiLine"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/doc_locname"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+
+        <EditText
+            android:id="@+id/edocloc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textStyle="italic"
+            android:hint="@string/doc_locname_hint"
+            android:inputType="textMultiLine"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/doc_specialty"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/edocspecialty"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textStyle="italic"
+            android:hint="@string/doc_specialty_hint"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/doc_phone"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/edocnum"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:hint="@string/doc_phone_hint"
+            android:paddingTop="5dp"
+            android:inputType="phone"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Consultation Time:"
+            android:paddingTop="16dp"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edoctime"
+            android:hint="Choose time"
+            android:textStyle="italic"
+            android:clickable="true"
+            android:focusable="false"/>
+
+        <Button
+            android:id="@+id/editbtn"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Save Changes"
+            android:layout_marginTop="20dp"/>
+
+
+    </LinearLayout>
+
+</ScrollView>
