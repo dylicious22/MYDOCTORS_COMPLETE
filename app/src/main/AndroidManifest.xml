@@ -17,7 +17,7 @@
     <application
         android:name="com.orm.SugarApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data
@@ -74,10 +74,6 @@
             android:name=".StartingPage"
             android:label="@string/title_activity_starting_page" >
         </activity>
-        <activity
-            android:name=".MenuActivity"
-            android:label="@string/title_activity_menu" >
-        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -90,18 +86,6 @@
         <activity
             android:name=".DoctorList"
             android:label="@string/title_activity_doctor_list" >
-        </activity>
-        <activity
-            android:name=".ViewDoc2"
-            android:label="STEP 2" >
-        </activity>
-        <activity
-            android:name=".ViewDoc3"
-            android:label="@string/title_activity_view_doc3" >
-        </activity>
-        <activity
-            android:name=".Calendar"
-            android:label="@string/title_activity_calendar" >
         </activity>
         <activity
             android:name=".SearchPlaces"

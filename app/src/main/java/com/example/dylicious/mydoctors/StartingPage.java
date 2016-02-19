@@ -23,6 +23,7 @@ public class StartingPage extends Activity {
             {
                 Intent intentSPP = new Intent(getApplicationContext(), StorePatientProfile.class);
                 startActivity(intentSPP);
+                finish();
             }
         });
     }
@@ -46,6 +47,7 @@ public class StartingPage extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
         return super.onOptionsItemSelected(item);
     }

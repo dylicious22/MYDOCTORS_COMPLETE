@@ -1,12 +1,15 @@
 package com.example.dylicious.mydoctors;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,9 +31,11 @@ import java.util.List;
 public class DoctorList extends Activity {
 
     ListView docListView;
-    DatabaseHandler docDB;
     SQLControllerDoctor sqlControlDoc;
-    TextView docIDP, docNameP, docAddP, docLocP, docSpecP, docNumP, docTimeP;
+    TextView docIDP, docNameP, docAddP, docLocP, docSpecP, docNumP, docTimeP, docEndTimeP,
+            docRemarksP;
+    TextView eDocID, eDocName, eDocAdd, eDocLoc, eDocSpec, eDocNum, eDocTime, eDocEndTime,
+            eDocRemarks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +53,15 @@ public class DoctorList extends Activity {
 
         String[] from = new String[]
                 {
-                        docDB.KEY_DOCID,
-                        docDB.KEY_DOCNAME,
-                        docDB.KEY_ADDRESS,
-                        docDB.KEY_LOCATION,
-                        docDB.KEY_SPECIALTY,
-                        docDB.KEY_PHONE,
-                        docDB.KEY_TIME
+                        DatabaseHandler.KEY_DOCID,
+                        DatabaseHandler.KEY_DOCNAME,
+                        DatabaseHandler.KEY_ADDRESS,
+                        DatabaseHandler.KEY_LOCATION,
+                        DatabaseHandler.KEY_SPECIALTY,
+                        DatabaseHandler.KEY_PHONE,
+                        DatabaseHandler.KEY_TIME,
+                        DatabaseHandler.KEY_ENDTIME,
+                        DatabaseHandler.KEY_REMARKS
                 };
 
         int[] to = new int[]
@@ -66,6 +73,8 @@ public class DoctorList extends Activity {
                         R.id.docSpec,
                         R.id.docNum,
                         R.id.docConsultTime,
+                        R.id.docEndTime,
+                        R.id.docRemarks
                 };
 
         SimpleCursorAdapter docAdapter = new SimpleCursorAdapter(DoctorList.this,
@@ -76,15 +85,16 @@ public class DoctorList extends Activity {
 
         docListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                docIDP = (TextView)findViewById(R.id.docID);
-                docNameP = (TextView)findViewById(R.id.docName);
-                docAddP = (TextView)findViewById(R.id.docAdd);
-                docLocP = (TextView)findViewById(R.id.docLoc);
-                docSpecP = (TextView)findViewById(R.id.docSpec);
-                docNumP = (TextView)findViewById(R.id.docNum);
-                docTimeP = (TextView)findViewById(R.id.docConsultTime);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                docIDP = (TextView) view.findViewById(R.id.docID);
+                docNameP = (TextView) view.findViewById(R.id.docName);
+                docAddP = (TextView) view.findViewById(R.id.docAdd);
+                docLocP = (TextView) view.findViewById(R.id.docLoc);
+                docSpecP = (TextView) view.findViewById(R.id.docSpec);
+                docNumP = (TextView) view.findViewById(R.id.docNum);
+                docTimeP = (TextView) view.findViewById(R.id.docConsultTime);
+                docEndTimeP = (TextView) view.findViewById(R.id.docEndTime);
+                docRemarksP = (TextView) view.findViewById(R.id.docRemarks);
 
                 String docID_val = docIDP.getText().toString();
                 String docName_val = docNameP.getText().toString();
@@ -93,6 +103,8 @@ public class DoctorList extends Activity {
                 String docSpec_val = docSpecP.getText().toString();
                 String docNum_val = docNumP.getText().toString();
                 String docTime_val = docTimeP.getText().toString();
+                String docEndTime_val = docEndTimeP.getText().toString();
+                String docRemarks_val = docRemarksP.getText().toString();
 
                 Intent editIntent = new Intent(getApplicationContext(), ViewDoctorProf.class);
                 editIntent.putExtra("doc_ID", docID_val);
@@ -102,9 +114,12 @@ public class DoctorList extends Activity {
                 editIntent.putExtra("doc_Spec", docSpec_val);
                 editIntent.putExtra("doc_Num", docNum_val);
                 editIntent.putExtra("doc_Time", docTime_val);
+                editIntent.putExtra("doc_EndTime", docEndTime_val);
+                editIntent.putExtra("doc_Remarks", docRemarks_val);
                 startActivity(editIntent);
             }
         });
+
 
         ImageButton btnAddMenuFooter = (ImageButton)findViewById(R.id.addmenufooter);
         btnAddMenuFooter.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +156,7 @@ public class DoctorList extends Activity {
         btnSearchDocFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri clinicUri = Uri.parse("geo:0,0?q=clinics");
+                Uri clinicUri = Uri.parse("geo:0,0?q=hospital");
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, clinicUri);
                 startActivity(mapIntent);
             }
@@ -177,7 +192,7 @@ public class DoctorList extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-
+        item.setVisible(false);
         return super.onOptionsItemSelected(item);
     }
 }

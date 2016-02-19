@@ -36,7 +36,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String KEY_SPECIALTY = "docSpecialty";
     public static final String KEY_PHONE = "docPhone";
     public static final String KEY_TIME = "docTime";
-    //private static final String KEY_DAY = "docDay";
+    public static final String KEY_ENDTIME = "docEndTime";
+    public static final String KEY_REMARKS = "docRemarks";
 
     public Context dbContext;
     public SQLiteDatabase sqlDB;
@@ -58,7 +59,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER +
                 "("
-                + KEY_ID + " INTEGER PRIMARY KEY, "
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + KEY_NAME + " TEXT NOT NULL, "
                 + KEY_TREATMENT + " TEXT NOT NULL, "
                 + KEY_MEDICATION + " TEXT NOT NULL, "
@@ -75,7 +76,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_LOCATION + " TEXT NOT NULL, "
                 + KEY_SPECIALTY + " TEXT NOT NULL, "
                 + KEY_PHONE + " TEXT NOT NULL, "
-                + KEY_TIME + " TEXT NOT NULL "
+                + KEY_TIME + " TEXT NOT NULL, "
+                + KEY_ENDTIME + " TEXT NOT NULL, "
+                + KEY_REMARKS + " TEXT NOT NULL "
                 + " );";
         db.execSQL(CREATE_DOCTOR_TABLE);
     }

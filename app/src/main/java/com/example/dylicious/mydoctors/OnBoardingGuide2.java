@@ -25,6 +25,7 @@ public class OnBoardingGuide2 extends Activity {
             {
                 Intent intentOBG3 = new Intent(getApplicationContext(), OnBoardingGuide3.class);
                 startActivity(intentOBG3);
+                finish();
             }
         });
     }
@@ -47,6 +48,7 @@ public class OnBoardingGuide2 extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
         return super.onOptionsItemSelected(item);
     }

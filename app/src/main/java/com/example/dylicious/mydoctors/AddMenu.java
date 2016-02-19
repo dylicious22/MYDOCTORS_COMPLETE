@@ -66,6 +66,7 @@ public class AddMenu extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_add_menu, menu);
+
         return true;
     }
 
@@ -80,7 +81,8 @@ public class AddMenu extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 }

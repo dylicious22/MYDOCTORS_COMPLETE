@@ -27,14 +27,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/docAdd"
         android:textSize="10sp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="2dp"
         android:visibility="gone"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/docLoc"
-        android:textColor="#AFC9C6"
+        android:layout_marginTop="2dp"
+        android:textColor="#A0A6A8"
         android:textSize="15sp"/>
 
     <TextView
@@ -50,7 +51,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/docSpec"
         android:textSize="15sp"
-        android:textColor="#AFC9C6"
+        android:textColor="#A0A6A8"
         android:textStyle="normal"/>
 
     <TextView
@@ -60,6 +61,23 @@
         android:textSize="5sp"
         android:layout_marginTop="3dp"
         android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id = "@+id/docEndTime"
+        android:textSize ="5sp"
+        android:layout_marginTop="3dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id = "@+id/docRemarks"
+        android:textSize ="5sp"
+        android:layout_marginTop="3dp"
+        android:visibility="gone"/>
+
 
 
 </LinearLayout>

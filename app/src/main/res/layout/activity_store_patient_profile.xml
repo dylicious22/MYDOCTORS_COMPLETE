@@ -25,11 +25,11 @@
             android:id="@+id/patname"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/patient_name_hint"
+            android:hint="Name"
             android:textSize="15sp"
             android:textStyle="italic"
             android:paddingTop="5dp"
-            android:inputType="textMultiLine"/>
+            android:inputType="text"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,15 +39,16 @@
             android:textColor="@color/black"
             android:textSize="20sp"/>
 
-        <EditText
+
+        <AutoCompleteTextView
             android:id="@+id/patmed"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:textSize="15sp"
             android:textStyle="italic"
-            android:hint="@string/patient_med_hint"
-            android:inputType="textMultiLine"
+            android:hint="Enter None if there's no medications taken"
+            android:inputType="text"
             />
 
         <TextView
@@ -59,15 +60,15 @@
             android:textSize="20sp"/>
 
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/pattreatment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:textSize="15sp"
             android:textStyle="italic"
-            android:hint="@string/patient_treatment_hint"
-            android:inputType="textMultiLine"
+            android:hint="Enter None if there's no treatment received"
+            android:inputType="text"
             />
 
         <TextView
@@ -78,14 +79,15 @@
             android:textColor="@color/black"
             android:textSize="20sp"/>
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/patallergy"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
-            android:hint="@string/patient_allergy_hint"
+            android:hint="Enter None if there's no allergy"
             android:textSize="15sp"
-            android:textStyle="italic"/>
+            android:textStyle="italic"
+            android:inputType="text"/>
 
         <Button
             android:id="@+id/savepat"

@@ -1,48 +1,78 @@
 package com.example.dylicious.mydoctors;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class StorePatientProfile extends Activity {
 
-    EditText inputUserName;
-    EditText inputUserMed;
-    EditText inputUserTreatment;
-    EditText inputUserAllergy;
+    EditText inputUserName, inputUserMedDate;
+    AutoCompleteTextView inputUserMed, inputUserTreatment, inputUserAllergy;
     Button btnSaveUserProfile;
     SQLControllerUser sqlUser;
-
+    AlertDialog.Builder exitDialog;
+    String [] medications = {"None", "Ventolin", "Panadol", "Paracetamol", "Thyroxin", "Bactrim"};
+    String [] allergy = {"None", "Seafood", "Panadol", "Bactrim", "Paracetamol"};
+    String [] treatment = {"None", "Chemotherapy", "Blood Test", "Minor Surgery"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_patient_profile);
-        setTitle("User Profile");
+        setTitle("Personal Profile");
 
         sqlUser = new SQLControllerUser(this);
         sqlUser.open();
 
         //edittext for user info
         inputUserName = (EditText)findViewById(R.id.patname);
-        inputUserMed = (EditText)findViewById(R.id.patmed);
-        inputUserTreatment = (EditText)findViewById(R.id.pattreatment);
-        inputUserAllergy = (EditText)findViewById(R.id.patallergy);
+        inputUserMed = (AutoCompleteTextView)findViewById(R.id.patmed);
+        inputUserTreatment = (AutoCompleteTextView)findViewById(R.id.pattreatment);
+        inputUserAllergy = (AutoCompleteTextView)findViewById(R.id.patallergy);
+
         btnSaveUserProfile = (Button)findViewById(R.id.savepat);
 
-//        addPatient();
+
+
+        ArrayAdapter medAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,
+                medications);
+        ArrayAdapter treatAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,
+                treatment);
+        ArrayAdapter allergyAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,
+                allergy);
+
+        inputUserMed.setAdapter(medAdapter);
+        inputUserMed.setThreshold(1);
+        inputUserTreatment.setAdapter(treatAdapter);
+        inputUserTreatment.setThreshold(1);
+        inputUserAllergy.setAdapter(allergyAdapter);
+        inputUserAllergy.setThreshold(1);
+
+        inputUserName.setFilters(new InputFilter[] {filter});
+
         btnSaveUserProfile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
@@ -52,16 +82,10 @@ public class StorePatientProfile extends Activity {
                     String usertreatment = inputUserTreatment.getText().toString();
                     String userallergy = inputUserAllergy.getText().toString();
 
-                    if (username.matches("") || usermed.matches("") || usertreatment.matches("") ||
-                            userallergy.matches(""))
+                    if (inputUserName.getText().toString().length() == 0 )
                     {
-                        Context context = getApplicationContext();
-                        CharSequence text = "Please fill up all the entry fields";
-                        int duration = Toast.LENGTH_LONG;
+                        inputUserName.setError("Invalid Input");
 
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                        return;
                     }
                     else
                     {
@@ -70,14 +94,53 @@ public class StorePatientProfile extends Activity {
                                 UserList.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                         startActivity(userView);
-                    }
 
+                    }
                 }
             });
         }
 
+    @Override
+    public void onBackPressed() {
+        exitDialog = new AlertDialog.Builder(StorePatientProfile.this);
+        exitDialog.setTitle("EXIT CONFIRMATION");
+        exitDialog.setMessage("Are you sure you want to exit and discard changes you had made?");
+        exitDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        exitDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        exitDialog.show();
+
+    }
+
+    public boolean isValidName(String name)
+    {
+        String nameValid = "[a-zA-Z]";
+        Pattern namePattern = Pattern.compile(nameValid);
+        Matcher nameMatcher = namePattern.matcher(name);
+
+        return nameMatcher.matches();
+    }
 
 
+    public static InputFilter filter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String blockCharacterSet = "+&~#^|$%*!@/()-'\":;,?{}=!$^';,?×÷<>{}€£¥₩%~`¤♡♥_|《》¡¿°•○●□■◇◆♧♣▲▼▶◀↑↓←→☆★▪1234567890";
+            if (source != null && blockCharacterSet.contains(("" + source))) {
+                return "";
+            }
+            return null;
+        }
+    };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -96,6 +159,7 @@ public class StorePatientProfile extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
         return super.onOptionsItemSelected(item);
     }

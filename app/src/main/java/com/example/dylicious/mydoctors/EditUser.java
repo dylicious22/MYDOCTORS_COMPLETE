@@ -1,10 +1,15 @@
 package com.example.dylicious.mydoctors;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,12 +17,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EditUser extends Activity {
     SQLControllerUser sqlUser;
     EditText editUserName, editUserMed, editUserTreat, editUserAllergy;
     long _userID;
     Button editUserBtn;
+    AlertDialog.Builder exitDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +56,7 @@ public class EditUser extends Activity {
         editUserTreat.setText(user_treat);
         editUserAllergy.setText(user_allergy);
 
+        editUserName.setFilters(new InputFilter[] {filter});
         editUserBtn = (Button)findViewById(R.id.editpat);
         editUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,17 +66,67 @@ public class EditUser extends Activity {
                 String update_usertreat = editUserTreat.getText().toString();
                 String update_userallergy = editUserAllergy.getText().toString();
 
-                sqlUser.updateUser(_userID, update_username, update_usermed, update_usertreat,
-                        update_userallergy);
+                if (editUserName.getText().toString().length() == 0 )
+                {
+                    editUserName.setError("Invalid Input");
 
-                Intent backIntent = new Intent(getApplicationContext(),
-                        UserList.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(backIntent);
+                }
+                else
+                {
+                    sqlUser.updateUser(_userID, update_username, update_usermed, update_usertreat,
+                            update_userallergy);
+
+                    Intent backIntent = new Intent(getApplicationContext(),
+                            UserList.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(backIntent);
+                }
+
 
             }
         });
+
     }
 
+    @Override
+    public void onBackPressed() {
+        exitDialog = new AlertDialog.Builder(EditUser.this);
+        exitDialog.setTitle("EXIT CONFIRMATION");
+        exitDialog.setMessage("Are you sure you want to exit and discard changes you had made?");
+        exitDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        exitDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        exitDialog.show();
+
+    }
+
+    public boolean isValidName(String name)
+    {
+        String nameValid = "[a-zA-Z]";
+        Pattern namePattern = Pattern.compile(nameValid);
+        Matcher nameMatcher = namePattern.matcher(name);
+
+        return nameMatcher.matches();
+    }
+
+    public static InputFilter filter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String blockCharacterSet = "+&~#^|$%*!@/()-'\":;,?{}=!$^';,?×÷<>{}€£¥₩%~`¤♡♥_|《》¡¿°•○●□■◇◆♧♣▲▼▶◀↑↓←→☆★▪1234567890";
+            if (source != null && blockCharacterSet.contains(("" + source))) {
+                return "";
+            }
+            return null;
+        }
+    };
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -84,6 +145,7 @@ public class EditUser extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
         return super.onOptionsItemSelected(item);
     }

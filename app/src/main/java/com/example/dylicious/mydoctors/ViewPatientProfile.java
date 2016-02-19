@@ -1,7 +1,9 @@
 package com.example.dylicious.mydoctors;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.Image;
@@ -23,6 +25,7 @@ public class ViewPatientProfile extends Activity {
     ImageButton editUserBtn;
     Button deleteUserBtn;
     long _userID;
+    AlertDialog.Builder deleteDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class ViewPatientProfile extends Activity {
         viewPatTreatment.setText(pat_treat);
         viewPatAllergy.setText(pat_allergy);
 
-
+        setTitle(pat_name + "'s profile");
         editUserBtn = (ImageButton)findViewById(R.id.edituser);
         editUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,10 +76,25 @@ public class ViewPatientProfile extends Activity {
             @Override
             public void onClick(View v)
             {
-                sqlUser.deleteUser(_userID);
-                Intent backIntent = new Intent(getApplicationContext(),
-                        UserList.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(backIntent);
+                deleteDialog = new AlertDialog.Builder(ViewPatientProfile.this);
+                deleteDialog.setTitle("DELETE CONFIRMATION");
+                deleteDialog.setMessage("Are you sure you want to delete?");
+                deleteDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sqlUser.deleteUser(_userID);
+                        Intent deleteDocIntent = new Intent(getApplicationContext(),
+                                UserList.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(deleteDocIntent);
+                    }
+                });
+                deleteDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                deleteDialog.show();
             }
         });
 
@@ -117,7 +135,7 @@ public class ViewPatientProfile extends Activity {
         btnSearchDocFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri clinicUri = Uri.parse("geo:0,0?q=clinics");
+                Uri clinicUri = Uri.parse("geo:0,0?q=hospital");
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, clinicUri);
                 startActivity(mapIntent);
             }
@@ -151,6 +169,7 @@ public class ViewPatientProfile extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
         return super.onOptionsItemSelected(item);
     }

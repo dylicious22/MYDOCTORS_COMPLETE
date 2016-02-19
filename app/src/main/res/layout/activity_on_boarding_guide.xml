@@ -33,7 +33,7 @@
         android:id="@+id/OnBoardingGuide2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mint"
+        android:background="@color/transparent"
         android:text="Next"
         android:layout_marginTop="5dp"
         android:layout_gravity="center"

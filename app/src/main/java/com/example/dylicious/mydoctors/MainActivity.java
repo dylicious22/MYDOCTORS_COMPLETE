@@ -44,24 +44,10 @@ public class MainActivity extends Activity {
                         startActivity(a);
                         finish();
                     }
-//                    Intent intent = new Intent(MainActivity.this,DoctorList.class);
-//                    startActivity(intent);
                 }
             }
         };
         timerThread.start();
-
-//        Button btnOnBoardingGuide1 = (Button) findViewById(R.id.OnBoardingGuide1);
-//
-//        btnOnBoardingGuide1.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                Intent intentOBG = new Intent(getApplicationContext(),OnBoardingGuide.class);
-//                startActivity(intentOBG);
-//            }
-//        });
     }
 
     @Override
@@ -89,6 +75,7 @@ public class MainActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
         return super.onOptionsItemSelected(item);
     }

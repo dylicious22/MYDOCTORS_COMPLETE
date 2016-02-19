@@ -36,7 +36,7 @@ public class SQLControllerDoctor
     }
 
     public void insertDoctor(String docname, String docadd, String docloc, String docspecialty,
-                             String docnum, String doctime)
+                             String docnum, String doctime, String docendtime, String docremarks)
     {
         ContentValues values = new ContentValues();
 
@@ -46,6 +46,8 @@ public class SQLControllerDoctor
         values.put(dbHandler.KEY_SPECIALTY, docspecialty);
         values.put(dbHandler.KEY_PHONE, docnum);
         values.put(dbHandler.KEY_TIME, doctime);
+        values.put(dbHandler.KEY_ENDTIME, docendtime);
+        values.put(dbHandler.KEY_REMARKS, docremarks);
 
         sqlDB.insert(dbHandler.TABLE_DOCTOR, null, values);
     }
@@ -60,10 +62,13 @@ public class SQLControllerDoctor
                         dbHandler.KEY_LOCATION,
                         dbHandler.KEY_SPECIALTY,
                         dbHandler.KEY_PHONE,
-                        dbHandler.KEY_TIME
+                        dbHandler.KEY_TIME,
+                        dbHandler.KEY_ENDTIME,
+                        dbHandler.KEY_REMARKS
                 };
 
-        Cursor c = sqlDB.query(dbHandler.TABLE_DOCTOR, allColumns, null, null, null, null, null);
+        Cursor c = sqlDB.query(dbHandler.TABLE_DOCTOR, allColumns, null, null, null, null,
+                dbHandler.KEY_DOCNAME + " ASC");
 
         if (c != null)
         {
@@ -74,7 +79,8 @@ public class SQLControllerDoctor
     }
 
     public int updateDoctor(long doctorID, String docname, String docadd, String docloc,
-                            String docspecialty, String docnum, String doctime)
+                            String docspecialty, String docnum, String doctime, String docendtime,
+                            String docremarks)
     {
         ContentValues updateValues = new ContentValues();
 
@@ -84,6 +90,8 @@ public class SQLControllerDoctor
         updateValues.put(dbHandler.KEY_SPECIALTY, docspecialty);
         updateValues.put(dbHandler.KEY_PHONE, docnum);
         updateValues.put(dbHandler.KEY_TIME, doctime);
+        updateValues.put(dbHandler.KEY_ENDTIME, docendtime);
+        updateValues.put(dbHandler.KEY_REMARKS, docremarks);
 
         int i = sqlDB.update(dbHandler.TABLE_DOCTOR, updateValues, dbHandler.KEY_DOCID + " = " +
                 doctorID, null);

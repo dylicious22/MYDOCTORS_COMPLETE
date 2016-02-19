@@ -69,11 +69,11 @@ public class UserList extends Activity {
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                userIDViewList = (TextView) findViewById(R.id.userIDView);
-                usernameViewList = (TextView) findViewById(R.id.userNameView);
-                userMedViewList = (TextView) findViewById(R.id.userMedicationView);
-                userTreatViewList = (TextView) findViewById(R.id.userTreatmentView);
-                userAllergyViewList = (TextView) findViewById(R.id.userAllergyView);
+                userIDViewList = (TextView) view.findViewById(R.id.userIDView);
+                usernameViewList = (TextView) view.findViewById(R.id.userNameView);
+                userMedViewList = (TextView) view.findViewById(R.id.userMedicationView);
+                userTreatViewList = (TextView) view.findViewById(R.id.userTreatmentView);
+                userAllergyViewList = (TextView) view.findViewById(R.id.userAllergyView);
 
                 String userID_val = userIDViewList.getText().toString();
                 String userName_val = usernameViewList.getText().toString();
@@ -127,7 +127,7 @@ public class UserList extends Activity {
         btnSearchDocFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri clinicUri = Uri.parse("geo:0,0?q=clinics");
+                Uri clinicUri = Uri.parse("geo:0,0?q=hospital");
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, clinicUri);
                 startActivity(mapIntent);
             }
@@ -161,6 +161,7 @@ public class UserList extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
         return super.onOptionsItemSelected(item);
     }

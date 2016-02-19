@@ -22,6 +22,7 @@ public class OnBoardingGuide3 extends Activity {
             public void onClick(View v) {
                 Intent intentStartPage = new Intent(getApplicationContext(), StartingPage.class);
                 startActivity(intentStartPage);
+                finish();
             }
         });
     }
@@ -44,6 +45,7 @@ public class OnBoardingGuide3 extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
         return super.onOptionsItemSelected(item);
     }

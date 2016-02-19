@@ -25,6 +25,7 @@ public class OnBoardingGuide extends Activity {
             public void onClick(View v) {
                 Intent intentOBG1 = new Intent(getApplicationContext(), OnBoardingGuide2.class);
                 startActivity(intentOBG1);
+                finish();
             }
         });
 
@@ -51,6 +52,7 @@ public class OnBoardingGuide extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        item.setVisible(false);
 
         return super.onOptionsItemSelected(item);
     }

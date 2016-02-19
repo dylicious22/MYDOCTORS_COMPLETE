@@ -57,7 +57,8 @@ public class SQLControllerUser
                         dbHandler.KEY_ALLERGY
                 };
 
-        Cursor c = sqlDB.query(dbHandler.TABLE_USER, allColumns, null, null, null, null, null);
+        Cursor c = sqlDB.query(dbHandler.TABLE_USER, allColumns, null, null, null,
+                null, dbHandler.KEY_NAME + " ASC");
 
         if (c != null)
         {
